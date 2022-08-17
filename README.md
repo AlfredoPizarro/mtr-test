@@ -9,7 +9,7 @@ Instructions:
 ```
  $ oc new-project test-network
 ```
-- Add the label `network-test: true` to the nodes where the containers will run.
+- Add the label `test-network: true` to the nodes where the containers will run.
 - Add the privileged scc to the default service account:
 ```
  $ oc adm policy add-scc-to-user privileged -z default
