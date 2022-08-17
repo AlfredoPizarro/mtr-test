@@ -1,5 +1,5 @@
 # mtr-test
-Container prepared to run an infinite mtr test 
+Container prepared to run an infinite mtr test to check latency between etcd members.
 
 It will create a container using rhel8/support-tool image and running mtr to test 3 endpoints. It will use the host context so the test is perform directly from the main node's interface and not from the SDN. 
 
@@ -18,7 +18,7 @@ Instructions:
 ```
 $ oc create configmap test-network-entrypoint --from-file entrypoint.sh
 ```
-- Edit the daemonset-test-network.yaml and specify each endpoint in the ETCD1 ETCD2 and ETCD3 vars to the desired entry points. 
+- Edit the daemonset-test-network.yaml and modify the ETCD1, ETCD2 and ETCD3 vars to reflect your etcd hosts.
 - Create the daemonset:
 ```
 $ oc create -f daemonset-test-network.yaml
