@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+  name: test-network
+  namespace: test-network
+spec:
+  selector:
+    matchLabels:
+      name: test-network
+  template:
+    metadata:
+      labels:
+        name: test-network
+    spec:
+      containers:
+      - command:
+        - /data/entrypoint.sh
+        env:
+        - name: ETCD1
+          value: 192.168.1.26
+        - name: ETCD2
+          value: 192.168.1.14
+        - name: ETCD3
+          value: 192.168.1.49
+        image: rhel8/support-tools
+        imagePullPolicy: Always
+        name: mtr-test
+        resources: {}
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /data
+          name: data-vol
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      nodeSelector:
+        test-network: "true"
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 10
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+      volumes:
+      - configMap:
+          defaultMode: 504
+          name: test-network-entrypoint
+        name: data-vol
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
