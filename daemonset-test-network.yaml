@@ -23,7 +23,7 @@ spec:
           value: 192.168.1.14
         - name: ETCD3
           value: 192.168.1.49
-        image: rhel8/support-tools
+        image: registry.redhat.io/rhel8/support-tools
         imagePullPolicy: Always
         name: mtr-test
         resources: {}
